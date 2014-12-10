@@ -8,7 +8,7 @@ def index():
 
 @auth.requires_login()
 def elections():
-    response.subtitle = T('My Elections')
+    response.subtitle = T('PSSI Elections')
     elections = db(db.election.created_by==auth.user.id).select(
         orderby=~db.election.created_on)
     ballots = db(db.voter.email == auth.user.email)(
@@ -87,6 +87,7 @@ def start_callback():
                                       link_ballots=link_ballots,
                                       link_results=link_results)
             subject = '%s [%s]' % (election.title, election.id)
+            print message
             emails.append((voter,email,subject,message))
         db.commit()
         sender = election.email_sender or mail.settings.sender
